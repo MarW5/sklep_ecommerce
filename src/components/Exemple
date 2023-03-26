@@ -1,0 +1,56 @@
+/* import { Footer } from "@/components/Footer";
+import { Header } from "@/components/Header";
+import { Main } from "@/components/Main";
+import { useQuery } from "@tanstack/react-query";
+import { useRouter } from "next/router";
+
+const getItemsPage = async (pageApiId: string) => {
+    console.log("pageApiId", pageApiId)
+    if (pageApiId) {
+        let pageId = Number(pageApiId) * 25
+        console.log(pageId)
+        const res = await fetch(`https://naszsklep-api.vercel.app/api/products?take=25&offset=${pageId}`);
+        const data: StoreApiResponse[] = await res.json();
+        return data
+    }
+
+}
+interface TypePageId {
+    pageApiGet: string;
+}
+
+const ItemPageId = () => {
+    const router = useRouter();
+    const pageApiId = router.query.pageId
+    const result = useQuery({ queryKey: ["repoData"], queryFn: () => getItemsPage(pageApiId) })
+
+    if (result.isLoading) {
+        return <div>Loading...</div>
+    }
+    if (result.isError || !result.data) {
+        return <div>Brak danych</div>;
+    }
+    console.log(result.data);
+    return (<>
+        <Header />
+        <Main>
+            <div>Elo</div>
+        </Main>
+        <Footer />
+    </>
+    )
+}
+export default ItemPageId;
+
+interface StoreApiResponse {
+    id: number;
+    title: string
+    price: number;
+    description: string;
+    category: string;
+    image: string;
+    rating: {
+        rate: number;
+        count: number;
+    }
+} */
