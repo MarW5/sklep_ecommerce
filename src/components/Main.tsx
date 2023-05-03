@@ -5,7 +5,7 @@ interface MainProps {
 }
 
 export const Main = ({ children }: MainProps) => (
-    <main className="max-h-full flex justify-center">
+    <main className="max-h-full flex justify-center flex-col">
         {children}
     </main>
 )

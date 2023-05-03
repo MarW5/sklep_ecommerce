@@ -1,57 +1,37 @@
-import { Footer } from "@/components/Footer";
-import { Header } from "@/components/Header";
-import { Main } from "@/components/Main";
 import { Product } from "@/components/Product"
 import { InferGetStaticPropsType } from "next";
+import { apolloClient } from '../graphql/appolloClient';
+import { GetProductListDocument, GetProductListQuery } from "@/generated/graphql";
 
 const ProductsPage = ({ data }: InferGetStaticPropsType<typeof getStaticProps>) => {
 
     return (
-        <>
-            <Header />
-            <Main>
-                <ul className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 ">
-                    {data.map((product) => {
-                        return (
-                            <li key={product.id}>
-                                <Product data={{
-                                    id: product.id,
-                                    title: product.title,
-                                    thumbnailUrl: product.image,
-                                    thumbnailAlt: product.title,
-                                }} />
-                            </li>
-                        );
-                    })}
-                </ul>
-            </Main>
-            <Footer />
-        </>
+            <ul className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 ">
+                {data.products.map((product) => {
+                    return (
+                        <li key={product.id}>
+                            <Product data={{
+                                id: product.slug,
+                                title: product.name,
+                                thumbnailUrl: product.images[0].url,
+                                thumbnailAlt: product.name,
+                            }} />
+                        </li>
+                    );
+                })}
+            </ul>
     )
 }
 
 export const getStaticProps = async () => {
-    const res = await fetch(`https://fakestoreapi.com/products/`);
-    const data: StoreApiResponse[] = await res.json();
-
+    const { data } = await apolloClient.query<GetProductListQuery>({
+    query: GetProductListDocument,
+  })
     return {
         props: {
             data,
         },
     };
 };
-
-interface StoreApiResponse {
-    id: number;
-    title: string
-    price: number;
-    description: string;
-    category: string;
-    image: string;
-    rating: {
-        rate: number;
-        count: number;
-    }
-}
 
 export default ProductsPage;

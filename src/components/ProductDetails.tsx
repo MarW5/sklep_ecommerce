@@ -1,11 +1,11 @@
 import { Rating } from "@/components/Rating";
-export interface ProductDetails {
+interface ProductDetails {
     id: number;
     title: string;
     description: string;
     thumbnailAlt: string,
     thumbnailUrl: string,
-    rating: number,
+    rating: number
 }
 interface ProductType {
     data: ProductDetails

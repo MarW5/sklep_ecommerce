@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { ProductDetails } from './ProductDetails'
 
 type ProductListItem = Pick<ProductDetails, "id" | "title" | "thumbnailUrl" | "thumbnailAlt">
@@ -12,7 +13,13 @@ export const Product = ({ data }: ProductType) => {
     return (
         <article className="group">
             <Link href={`/products/${id}`}>
-                <img className="h-56 w-full rounded-xl object-cover shadow-xl transition group-hover:grayscale-[50%]" src={thumbnailUrl} alt={thumbnailAlt}></img>
+                <div className="w-64 h-80 relative">
+                    <Image
+                        src={thumbnailUrl}
+                        alt={thumbnailAlt} 
+                        fill
+                    />
+                </div>
                 <h2>{title}</h2>
             </Link>
         </article>
