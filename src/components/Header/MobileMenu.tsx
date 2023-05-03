@@ -1,13 +1,14 @@
 import { Dialog } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import { Logo } from './Logo';
-import { NavLink } from './NavLinks';
+import { NavLink, NavLinkTypes } from './NavLinks';
 
 interface MobileMenuTypes {
     mobileMenuOpen: boolean,
     setMobileMenuOpen: any,
-    linksArray: Array<object>
+    linksArray: any
 }
+
 
 export const MobileMenu = ({mobileMenuOpen, setMobileMenuOpen, linksArray}:MobileMenuTypes) =>{
     return (
@@ -28,7 +29,7 @@ export const MobileMenu = ({mobileMenuOpen, setMobileMenuOpen, linksArray}:Mobil
             <div className="mt-6 flow-root">
               <div className="-my-6 divide-y divide-gray-500/10">
                 <div className="space-y-2 py-6">
-                  {linksArray.map((item) => (
+                  {linksArray.map((item:NavLinkTypes) => (
                     <NavLink key={item.name} href={item.href} name={item.name} classes={"-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"}/>
                   ))}
                 </div>

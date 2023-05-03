@@ -1,8 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ProductDetails } from './ProductDetails'
+import { ProductDetailsType } from './ProductDetails'
 
-type ProductListItem = Pick<ProductDetails, "id" | "title" | "thumbnailUrl" | "thumbnailAlt">
+type ProductListItem = Pick<ProductDetailsType, "id" | "title" | "thumbnailUrl" | "thumbnailAlt">
 
 interface ProductType {
     data: ProductListItem

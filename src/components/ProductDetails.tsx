@@ -1,6 +1,7 @@
+import Image from "next/image";
 import { Rating } from "@/components/Rating";
-interface ProductDetails {
-    id: number;
+export interface ProductDetailsType {
+    id: string;
     title: string;
     description: string;
     thumbnailAlt: string,
@@ -8,7 +9,7 @@ interface ProductDetails {
     rating: number
 }
 interface ProductType {
-    data: ProductDetails
+    data: ProductDetailsType
 }
 
 export const ProductDetails = ({ data }: ProductType) => {
@@ -16,7 +17,11 @@ export const ProductDetails = ({ data }: ProductType) => {
     return (
         <div>
             <div className="p-4">
-                <img className="h-56 w-full rounded-xl object-cover shadow-xl transition group-hover:grayscale-[50%]" src={thumbnailUrl} alt={thumbnailAlt}></img>
+                <Image
+                        src={thumbnailUrl}
+                        alt={thumbnailAlt} 
+                        fill
+                    />
                 <h2>{title}</h2>
                 <div className="mt-2 text-sm leading-relaxed text-gray-500 line-clamp-3">
                     {description}</div>

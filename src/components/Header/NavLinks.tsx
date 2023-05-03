@@ -1,5 +1,5 @@
 import Link from 'next/link';
-interface NavLinkTypes {
+export interface NavLinkTypes {
     href: string,
     name:string,
     classes: string

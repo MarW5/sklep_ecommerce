@@ -32,8 +32,8 @@ export const Header = ()=> {
             </button>
           </div>
           <div className="hidden lg:flex lg:gap-x-12">
-            {navigation.map((item) => (
-              <NavLink href={item.href} name= {item.name} classes={'text-sm font-semibold leading-6 text-gray-900'}/>
+            {navigation.map((item, index) => (
+              <NavLink key={`${item}_${index}`} href={item.href} name= {item.name} classes={'text-sm font-semibold leading-6 text-gray-900'}/>
             ))}
           </div>
           <div className="hidden lg:flex lg:flex-1 lg:justify-end">
