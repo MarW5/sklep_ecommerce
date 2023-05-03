@@ -6,20 +6,19 @@ import { GetProductListDocument, GetProductListQuery } from "@/generated/graphql
 const ProductsPage = ({ data }: InferGetStaticPropsType<typeof getStaticProps>) => {
 
     return (
-            <ul className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 ">
+            <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
                 {data.products.map((product) => {
                     return (
-                        <li key={product.id}>
-                            <Product data={{
+                            <Product key={product.id} data={{
                                 id: product.slug,
                                 title: product.name,
+                                price: product.price,
                                 thumbnailUrl: product.images[0].url,
                                 thumbnailAlt: product.name,
                             }} />
-                        </li>
                     );
                 })}
-            </ul>
+            </div>
     )
 }
 

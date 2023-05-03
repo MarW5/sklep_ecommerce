@@ -16,6 +16,7 @@ const ProductIdPage = ({ data, }: InferGetStaticPropsType<typeof getStaticProps>
                     data={{
                         id: data.slug,
                         title: data.name,
+                        price: data.price,
                         description: data.description,
                         thumbnailUrl: data.images[0].url,
                         thumbnailAlt: data.name,
