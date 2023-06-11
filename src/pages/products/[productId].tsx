@@ -7,7 +7,6 @@ import { GetStaticPropsContext, InferGetStaticPropsType } from "next";
 const ProductIdPage = ({ data, }: InferGetStaticPropsType<typeof getStaticProps>) => {
 
     if (!data) {
-        console.log(data)
         return <div>Nie działa</div>
     }
     return (
