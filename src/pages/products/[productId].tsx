@@ -7,7 +7,7 @@ import { GetStaticPropsContext, InferGetStaticPropsType } from "next";
 const ProductIdPage = ({ data, }: InferGetStaticPropsType<typeof getStaticProps>) => {
 
     if (!data) {
-        return <div>Nie działa</div>
+        return <div>Some error here</div>
     }
     return (
             <Main>
@@ -27,7 +27,6 @@ const ProductIdPage = ({ data, }: InferGetStaticPropsType<typeof getStaticProps>
 export default ProductIdPage;
 
 export const getStaticPaths = async () => {
-
     const { data } = await apolloClient.query<GetProductsSlugsQuery>({
         query: GetProductsSlugsDocument,
     })

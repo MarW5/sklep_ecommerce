@@ -1,5 +1,7 @@
 import Image from "next/image";
 import { Rating } from "@/components/Rating";
+import Markdown from 'react-markdown';
+
 export interface ProductDetailsType {
     id: string;
     title: string;
@@ -29,8 +31,9 @@ export const ProductDetails = ({ data }: ProductType) => {
             </div>
             <div>
             <h2>{title}</h2>
-                <div className="mt-2 text-sm leading-relaxed text-gray-500 line-clamp-3">
-                    {description}</div>
+                    <article className="prose lg:prose-xl">
+                        <Markdown>{description}</Markdown>
+                    </article>
                 <Rating rating={rating} />
             </div>
         </div>
