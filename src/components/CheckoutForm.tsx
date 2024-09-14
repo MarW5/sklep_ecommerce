@@ -11,23 +11,17 @@ export const CheckoutForm = ():CheckoutFormType => {
     const handeFormMethod = useForm<CheckoutFormType>({resolver: yupResolver(checkoutSchema)});
 
     const [createReview, {data, loading}] = useCreateProductReviewMutation();
-    const handleAddReview = () => {
+    const handleAddReview = (reviewData) => {
         createReview({
             mutatation: CreateProductReviewDocument,
             variables: {
-                review: {
-                    "headline":"Super produkt",
-                    "name": "Małgorzata",
-                    "email":"goska@exemple.com",
-                    "content": "dobre",
-                    "rating": 5
-                }
+                review: {...reviewData}
             }
         })
     }
 
-    const handleSubmitEvent = (val:CheckoutFormType) =>{
-        console.log('val', val)
+    const handleSubmitEvent = (reviewData:CheckoutFormType) =>{
+        handleAddReview(reviewData)
     }
         return (
             <FormContent handerFormMethod ={handeFormMethod} handleSubmitEvent ={handleSubmitEvent} >
