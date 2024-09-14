@@ -11,7 +11,7 @@ const SendRatioPage = () => {
     const handeFormMethod = useForm<RatioFormType>({resolver: yupResolver(ratioFormSchema)});
 
     const [createReview, {data, loading}] = useCreateProductReviewMutation();
-    const handleAddRatio = (ratioData:ReviewCreateInput) => {
+    const handleAddReview = (ratioData:ReviewCreateInput) => {
         createReview({
             variables: {
                 review: {...ratioData}
@@ -20,7 +20,7 @@ const SendRatioPage = () => {
     }
 
     const handleSubmitEvent = (ratioData:ReviewCreateInput) =>{
-        handleAddRatio(ratioData)
+        handleAddReview(ratioData)
     }
 
     return (

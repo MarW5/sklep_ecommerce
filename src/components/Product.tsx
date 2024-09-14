@@ -41,6 +41,8 @@ export const Product = ({ data }: ProductType) => {
                                 id: id,
                                 price: price,
                                 title: title,
+                                imageUrl:thumbnailUrl,
+                                imageAlt:thumbnailAlt,
                                 count: 1,
                             })
                         }} className='text-white text-sm bg-slate-800 rounded-md p-1 mt-1 max-w-fit'>

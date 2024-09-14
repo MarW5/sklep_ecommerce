@@ -4545,7 +4545,6 @@ export type Order = Entity & Node & {
   scheduledIn: Array<ScheduledOperation>;
   /** System stage field */
   stage: Stage;
-  stripeCheckoutId: Scalars['String'];
   total: Scalars['Int'];
   /** The time the document was updated */
   updatedAt: Scalars['DateTime'];
@@ -4631,7 +4630,6 @@ export type OrderCreateInput = {
   createdAt?: InputMaybe<Scalars['DateTime']>;
   email: Scalars['String'];
   orderItems?: InputMaybe<OrderItemCreateManyInlineInput>;
-  stripeCheckoutId: Scalars['String'];
   total: Scalars['Int'];
   updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
@@ -5228,25 +5226,6 @@ export type OrderManyWhereInput = {
   scheduledIn_every?: InputMaybe<ScheduledOperationWhereInput>;
   scheduledIn_none?: InputMaybe<ScheduledOperationWhereInput>;
   scheduledIn_some?: InputMaybe<ScheduledOperationWhereInput>;
-  stripeCheckoutId?: InputMaybe<Scalars['String']>;
-  /** All values containing the given string. */
-  stripeCheckoutId_contains?: InputMaybe<Scalars['String']>;
-  /** All values ending with the given string. */
-  stripeCheckoutId_ends_with?: InputMaybe<Scalars['String']>;
-  /** All values that are contained in given list. */
-  stripeCheckoutId_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  /** Any other value that exists and is not equal to the given value. */
-  stripeCheckoutId_not?: InputMaybe<Scalars['String']>;
-  /** All values not containing the given string. */
-  stripeCheckoutId_not_contains?: InputMaybe<Scalars['String']>;
-  /** All values not ending with the given string */
-  stripeCheckoutId_not_ends_with?: InputMaybe<Scalars['String']>;
-  /** All values that are not contained in given list. */
-  stripeCheckoutId_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  /** All values not starting with the given string. */
-  stripeCheckoutId_not_starts_with?: InputMaybe<Scalars['String']>;
-  /** All values starting with the given string. */
-  stripeCheckoutId_starts_with?: InputMaybe<Scalars['String']>;
   total?: InputMaybe<Scalars['Int']>;
   /** All values greater than the given value. */
   total_gt?: InputMaybe<Scalars['Int']>;
@@ -5289,8 +5268,6 @@ export enum OrderOrderByInput {
   IdDesc = 'id_DESC',
   PublishedAtAsc = 'publishedAt_ASC',
   PublishedAtDesc = 'publishedAt_DESC',
-  StripeCheckoutIdAsc = 'stripeCheckoutId_ASC',
-  StripeCheckoutIdDesc = 'stripeCheckoutId_DESC',
   TotalAsc = 'total_ASC',
   TotalDesc = 'total_DESC',
   UpdatedAtAsc = 'updatedAt_ASC',
@@ -5300,7 +5277,6 @@ export enum OrderOrderByInput {
 export type OrderUpdateInput = {
   email?: InputMaybe<Scalars['String']>;
   orderItems?: InputMaybe<OrderItemUpdateManyInlineInput>;
-  stripeCheckoutId?: InputMaybe<Scalars['String']>;
   total?: InputMaybe<Scalars['Int']>;
 };
 
@@ -5323,7 +5299,6 @@ export type OrderUpdateManyInlineInput = {
 
 export type OrderUpdateManyInput = {
   email?: InputMaybe<Scalars['String']>;
-  stripeCheckoutId?: InputMaybe<Scalars['String']>;
   total?: InputMaybe<Scalars['Int']>;
 };
 
@@ -5465,25 +5440,6 @@ export type OrderWhereInput = {
   scheduledIn_every?: InputMaybe<ScheduledOperationWhereInput>;
   scheduledIn_none?: InputMaybe<ScheduledOperationWhereInput>;
   scheduledIn_some?: InputMaybe<ScheduledOperationWhereInput>;
-  stripeCheckoutId?: InputMaybe<Scalars['String']>;
-  /** All values containing the given string. */
-  stripeCheckoutId_contains?: InputMaybe<Scalars['String']>;
-  /** All values ending with the given string. */
-  stripeCheckoutId_ends_with?: InputMaybe<Scalars['String']>;
-  /** All values that are contained in given list. */
-  stripeCheckoutId_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  /** Any other value that exists and is not equal to the given value. */
-  stripeCheckoutId_not?: InputMaybe<Scalars['String']>;
-  /** All values not containing the given string. */
-  stripeCheckoutId_not_contains?: InputMaybe<Scalars['String']>;
-  /** All values not ending with the given string */
-  stripeCheckoutId_not_ends_with?: InputMaybe<Scalars['String']>;
-  /** All values that are not contained in given list. */
-  stripeCheckoutId_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  /** All values not starting with the given string. */
-  stripeCheckoutId_not_starts_with?: InputMaybe<Scalars['String']>;
-  /** All values starting with the given string. */
-  stripeCheckoutId_starts_with?: InputMaybe<Scalars['String']>;
   total?: InputMaybe<Scalars['Int']>;
   /** All values greater than the given value. */
   total_gt?: InputMaybe<Scalars['Int']>;
@@ -8284,6 +8240,7 @@ export type QueryCurrencyVersionArgs = {
 
 
 export type QueryEntitiesArgs = {
+  locales?: InputMaybe<Array<Locale>>;
   where: Array<EntityWhereInput>;
 };
 
@@ -10832,6 +10789,13 @@ export type CreateProductReviewMutationVariables = Exact<{
 
 export type CreateProductReviewMutation = { __typename?: 'Mutation', review?: { __typename?: 'Review', id: string, stage: Stage } | null };
 
+export type CreateOrderMutationVariables = Exact<{
+  order: OrderCreateInput;
+}>;
+
+
+export type CreateOrderMutation = { __typename?: 'Mutation', createOrder?: { __typename?: 'Order', id: string } | null };
+
 export type GetProductListQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -10884,6 +10848,39 @@ export function useCreateProductReviewMutation(baseOptions?: Apollo.MutationHook
 export type CreateProductReviewMutationHookResult = ReturnType<typeof useCreateProductReviewMutation>;
 export type CreateProductReviewMutationResult = Apollo.MutationResult<CreateProductReviewMutation>;
 export type CreateProductReviewMutationOptions = Apollo.BaseMutationOptions<CreateProductReviewMutation, CreateProductReviewMutationVariables>;
+export const CreateOrderDocument = gql`
+    mutation CreateOrder($order: OrderCreateInput!) {
+  createOrder(data: $order) {
+    id
+  }
+}
+    `;
+export type CreateOrderMutationFn = Apollo.MutationFunction<CreateOrderMutation, CreateOrderMutationVariables>;
+
+/**
+ * __useCreateOrderMutation__
+ *
+ * To run a mutation, you first call `useCreateOrderMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateOrderMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createOrderMutation, { data, loading, error }] = useCreateOrderMutation({
+ *   variables: {
+ *      order: // value for 'order'
+ *   },
+ * });
+ */
+export function useCreateOrderMutation(baseOptions?: Apollo.MutationHookOptions<CreateOrderMutation, CreateOrderMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateOrderMutation, CreateOrderMutationVariables>(CreateOrderDocument, options);
+      }
+export type CreateOrderMutationHookResult = ReturnType<typeof useCreateOrderMutation>;
+export type CreateOrderMutationResult = Apollo.MutationResult<CreateOrderMutation>;
+export type CreateOrderMutationOptions = Apollo.BaseMutationOptions<CreateOrderMutation, CreateOrderMutationVariables>;
 export const GetProductListDocument = gql`
     query GetProductList {
   products {

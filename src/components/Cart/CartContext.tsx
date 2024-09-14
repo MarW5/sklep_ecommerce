@@ -23,6 +23,7 @@ export const CartStateContextProvider = ({ children }: { children: ReactNode }) 
     }, [])
 
     useEffect(() => {
+        console.log(cartItems)
         if (cartItems.length !== 0) {
             setCartItemsToStorage(cartItems)
         }
