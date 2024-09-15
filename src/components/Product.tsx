@@ -3,14 +3,14 @@ import Image from "next/image";
 import { ProductDetailsType } from './ProductDetails'
 import { useCartState } from "./Cart/CartContext";
 
-type ProductListItem = Pick<ProductDetailsType, "id" | "title" | "price" | "thumbnailUrl" | "thumbnailAlt">
+type ProductListItem = Pick<ProductDetailsType, "id" | "uuId" | "title" | "price" | "thumbnailUrl" | "thumbnailAlt">
 
 interface ProductType {
     data: ProductListItem
 }
 
 export const Product = ({ data }: ProductType) => {
-    const { id, title, price, thumbnailAlt, thumbnailUrl } = data;
+    const { id, uuId, title, price, thumbnailAlt, thumbnailUrl } = data;
     const cartState = useCartState();
     return (
         <>
@@ -39,6 +39,7 @@ export const Product = ({ data }: ProductType) => {
                         <button onClick={() => {
                             cartState.addItemToCart({
                                 id: id,
+                                uuId: uuId,
                                 price: price,
                                 title: title,
                                 imageUrl:thumbnailUrl,

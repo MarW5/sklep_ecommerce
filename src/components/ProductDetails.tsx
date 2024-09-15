@@ -5,6 +5,7 @@ import { useCartState } from "./Cart/CartContext";
 
 export interface ProductDetailsType {
     id: string;
+    uuId: string;
     title: string;
     price:number;
     description: string;
@@ -17,7 +18,7 @@ interface ProductType {
 }
 
 export const ProductDetails = ({ data }: ProductType) => {
-    const { id, title, description, price, thumbnailUrl, thumbnailAlt, rating } = data;
+    const { id, uuId, title, description, price, thumbnailUrl, thumbnailAlt, rating } = data;
     const cartState = useCartState();
 
     return (
@@ -40,6 +41,7 @@ export const ProductDetails = ({ data }: ProductType) => {
                     <button onClick={() => {
                                 cartState.addItemToCart({
                                     id: id,
+                                    uuId: uuId,
                                     price: price,
                                     title: title,
                                     count: 1,

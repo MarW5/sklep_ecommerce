@@ -5,7 +5,6 @@ import { apolloClient } from "../../graphql/appolloClient";
 import { GetStaticPropsContext, InferGetStaticPropsType } from "next";
 
 const ProductIdPage = ({ data, }: InferGetStaticPropsType<typeof getStaticProps>) => {
-
     if (!data) {
         return <div>Some error here</div>
     }
@@ -14,6 +13,7 @@ const ProductIdPage = ({ data, }: InferGetStaticPropsType<typeof getStaticProps>
                 <ProductDetails
                     data={{
                         id: data.slug,
+                        uuId: data.id,
                         title: data.name,
                         price: data.price,
                         description: data.description,

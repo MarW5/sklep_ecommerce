@@ -3,14 +3,18 @@ import { getCartItemsFromStorage, setCartItemsToStorage } from './cartModel';
 
 export interface CartItem {
     readonly id: string;
+    readonly uuId: string;
     readonly price: number;
     readonly title: string;
     readonly count: number;
+    readonly imageUrl: string;
+    readonly imageAlt: string;
 }
 export interface CartState {
     items: readonly CartItem[];
     addItemToCart: (item: CartItem) => void;
     removeItemFromCart: (id: CartItem['id']) => void;
+    clearCart: () => void;
 }
 
 export const CartStateContext = createContext<CartState | null>(null);
@@ -23,7 +27,6 @@ export const CartStateContextProvider = ({ children }: { children: ReactNode }) 
     }, [])
 
     useEffect(() => {
-        console.log(cartItems)
         if (cartItems.length !== 0) {
             setCartItemsToStorage(cartItems)
         }
@@ -65,6 +68,9 @@ export const CartStateContextProvider = ({ children }: { children: ReactNode }) 
                     return el;
                 })
             })
+        },
+        clearCart: () => {
+            setCartItems(()=> [])
         }
     }}
     >{children}</CartStateContext.Provider>

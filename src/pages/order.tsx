@@ -1,9 +1,13 @@
 import { Main } from "@/components/Main";
 import { OrderForm } from "@/components/OrderForm";
+import { OrderSummary } from "@/components/OrderSummary";
 const OrderPage = () => {
     return (
         <Main>
-            <OrderForm /> 
+            <div className="flex justify-around">
+                <OrderSummary />
+                <OrderForm /> 
+            </div>
         </Main>
     ) 
 }

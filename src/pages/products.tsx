@@ -10,6 +10,7 @@ const ProductsPage = ({ data }: InferGetStaticPropsType<typeof getStaticProps>) 
                     return (
                             <Product key={product.id} data={{
                                 id: product.slug,
+                                uuId: product.id,
                                 title: product.name,
                                 price: product.price,
                                 thumbnailUrl: product.images[0].url,

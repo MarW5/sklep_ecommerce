@@ -3,6 +3,7 @@ import { setLocale } from 'yup';
 
 export type CheckoutFormType = yup.InferType<typeof checkoutSchema>;
 export type RatioFormType = yup.InferType<typeof ratioFormSchema>;
+export type OrderFormType = yup.InferType<typeof orderSchema>;
 
 export const checkoutSchema = yup.object({
     emailAddress: yup.string().email("Email format is not valid").required("Pole email jest wymagane"),
@@ -26,6 +27,10 @@ export const ratioFormSchema = yup.object({
     email: yup.string().required(),
     content: yup.string().required(),
     rating: yup.number().required(),
+}).required();
+
+export const orderSchema = yup.object({
+    email: yup.string().email("Email format is not valid").required("Pole email jest wymagane"),
 }).required();
 
 setLocale({

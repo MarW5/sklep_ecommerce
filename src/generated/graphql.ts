@@ -10806,7 +10806,7 @@ export type GetProductDetailsBySlugQueryVariables = Exact<{
 }>;
 
 
-export type GetProductDetailsBySlugQuery = { __typename?: 'Query', product?: { __typename?: 'Product', slug: string, name: string, price: number, description: string, images: Array<{ __typename?: 'Asset', url: string }> } | null };
+export type GetProductDetailsBySlugQuery = { __typename?: 'Query', product?: { __typename?: 'Product', id: string, slug: string, name: string, price: number, description: string, images: Array<{ __typename?: 'Asset', url: string }> } | null };
 
 export type GetProductsSlugsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -10929,6 +10929,7 @@ export type GetProductListQueryResult = Apollo.QueryResult<GetProductListQuery, 
 export const GetProductDetailsBySlugDocument = gql`
     query GetProductDetailsBySlug($slug: String) {
   product(where: {slug: $slug}) {
+    id
     slug
     name
     price
