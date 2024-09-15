@@ -45,7 +45,7 @@ export const Product = ({ data }: ProductType) => {
                                 imageAlt:thumbnailAlt,
                                 count: 1,
                             })
-                        }} className='text-white text-sm bg-slate-800 rounded-md p-1 mt-1 max-w-fit'>
+                        }} className='text-white text-sm bg-slate-800 rounded-md p-1 mt-1 max-w-fit max-h-[24px]'>
                             Dodaj do koszyka
                         </button>
                     </div>

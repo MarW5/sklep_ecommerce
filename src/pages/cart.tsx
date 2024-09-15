@@ -55,9 +55,9 @@ export const CartSummary = () => {
     
     return (
         <div className="flex flex-col w-full">
-            <p className="divide-y divide-gray-200">Podsumowanie koszyka</p>
+            <p className="divide-y divide-gray-200">Zamów</p>
             <div className="font-bold w-full text-lg">Suma:{sumPrices()}</div>
-            <Link href={`/confirm`} className="text-white text-sm bg-slate-800 rounded-md p-2 mt-1 max-w-fit">
+            <Link href={`/order`} className="text-white text-sm bg-slate-800 rounded-md p-2 mt-1 max-w-fit">
                 Przejdź do koszyka
             </Link>
         </div>
