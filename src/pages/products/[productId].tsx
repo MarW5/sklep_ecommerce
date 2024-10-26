@@ -3,6 +3,8 @@ import { ProductDetails } from "@/components/ProductDetails";
 import { GetProductDetailsBySlugQuery, GetProductDetailsBySlugQueryVariables, GetProductsSlugsQuery, GetProductsSlugsDocument, GetProductDetailsBySlugDocument } from "@/generated/graphql";
 import { apolloClient } from "../../graphql/appolloClient";
 import { GetStaticPropsContext, InferGetStaticPropsType } from "next";
+import { ProductReviewList } from "@/components/ProductReview/ProductReviewList";
+import { ProductReviewForm } from "@/components/ProductReview/ProductReviewForm";
 
 const ProductIdPage = ({ data, }: InferGetStaticPropsType<typeof getStaticProps>) => {
     if (!data) {
@@ -21,6 +23,8 @@ const ProductIdPage = ({ data, }: InferGetStaticPropsType<typeof getStaticProps>
                         thumbnailAlt: data.name,
                         rating: 5
                     }} />
+                    <ProductReviewForm productId={data.slug} />
+                    <ProductReviewList productSlug ={data.slug}/>
             </Main>
     )
 }
