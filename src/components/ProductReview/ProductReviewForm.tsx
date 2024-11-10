@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { ReviewCreateInput, useCreateProductReviewMutation } from "@/generated/graphql";
+import { GetReviewsForProductSlugDocument, GetReviewsForProductSlugQuery, ReviewCreateInput, useCreateProductReviewMutation } from "@/generated/graphql";
 
 import { Main } from "@/components/Main";
 import { FormContent } from "@/components/FormContent";
@@ -10,7 +10,34 @@ import { RatioFormType, ratioFormSchema } from "@/utils/formValidator";
 export const ProductReviewForm = ({ productId }) => {
     const formVariables = useForm<RatioFormType>({resolver: yupResolver(ratioFormSchema)});
 
-    const [createReview, {data, loading}] = useCreateProductReviewMutation();
+    const [createReview, {data, loading}] = useCreateProductReviewMutation({
+        update(cache, result) {
+            const originalReviewsQuery =
+            cache.readQuery<GetReviewsForProductSlugQuery>({
+                query: GetReviewsForProductSlugDocument,
+                variables: { slug: productId },
+            });
+            if(!originalReviewsQuery?.product?.reviews || !result.data?.review ) {
+                return;
+            }
+    
+            const newReviewsQuery = {
+                ...originalReviewsQuery,
+                product: {
+                    ...originalReviewsQuery.product,
+                    reviews: [
+                        ...originalReviewsQuery.product?.reviews,
+                        result.data.review,
+                    ]
+                }
+            }
+            cache.writeQuery({
+                query: GetReviewsForProductSlugDocument,
+                variables: {slug: productId},
+                data: newReviewsQuery,
+            })
+        }
+    });
     const handleAddReview = (ratioData:ReviewCreateInput) => {
         createReview({
             variables: {
@@ -23,6 +50,14 @@ export const ProductReviewForm = ({ productId }) => {
                     }
                 }
             },
+            optimisticResponse: {
+                __typename: "Mutation",
+                review: {
+                    __typename: "Review",
+                    id: (-Math.random()).toString(32),
+                    ...ratioData,
+                }
+            }
         })
     }
 
