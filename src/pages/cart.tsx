@@ -1,9 +1,16 @@
 import { useCartState } from "@/components/Cart/CartContext";
 import { ProductsSummary } from "@/components/ProductSummary";
+import { loadStripe } from "@stripe/stripe-js";
 import Link from "next/link";
+import Stripe from "stripe";
+
+const stripePromise = loadStripe(
+    process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
+)
 
 export const CartContent = () => {
     const cartState = useCartState();
+    
     return (
         <div className="col-span-2">
             <ul className="divide-y divide-gray-200">
@@ -39,6 +46,29 @@ export const CartSummary = () => {
 }
 
 const CartPage = () => {
+    const cartState = useCartState();
+    const pay = async () =>{
+        const stripe = await stripePromise;
+
+        if(!stripe) {
+            throw new Error(`Something went wrong`);
+        }
+        const res = await fetch("/api/checkout", { 
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(cartState.items.map(cartItem => {
+                return {
+                    [cartItem.id]: cartItem.count,
+                };
+            }))
+        })
+        const { session } : { session: Stripe.Response<Stripe.Checkout.Session> } = await res.json();
+        
+        await stripe.redirectToCheckout({ sessionId: session.id })
+    }
+
     return (
         <div className="max-w-2xl mx-auto w-full p-4">
             <p>Koszyk</p>
@@ -46,6 +76,9 @@ const CartPage = () => {
                 <CartContent />
                 <CartSummary />
             </div>
+            <button onClick={()=> pay()} type='button' className="text-white text-sm bg-slate-800 rounded-md p-2 mt-1 max-w-fit w-full">
+                Złóż zamówienie
+            </button>
         </div>
     )
 }

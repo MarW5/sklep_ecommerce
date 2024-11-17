@@ -10822,6 +10822,13 @@ export type GetReviewsForProductSlugQueryVariables = Exact<{
 
 export type GetReviewsForProductSlugQuery = { __typename?: 'Query', product?: { __typename?: 'Product', reviews: Array<{ __typename?: 'Review', content: string, headline: string, id: string, name: string, rating?: number | null }> } | null };
 
+export type GetProductsBySlugsQueryVariables = Exact<{
+  slugs?: InputMaybe<Array<Scalars['String']> | Scalars['String']>;
+}>;
+
+
+export type GetProductsBySlugsQuery = { __typename?: 'Query', products: Array<{ __typename?: 'Product', id: string, name: string, price: number, slug: string, images: Array<{ __typename?: 'Asset', url: string }> }> };
+
 export const ReviewContentFragmentDoc = gql`
     fragment reviewContent on Review {
   content
@@ -11070,3 +11077,49 @@ export type GetReviewsForProductSlugQueryHookResult = ReturnType<typeof useGetRe
 export type GetReviewsForProductSlugLazyQueryHookResult = ReturnType<typeof useGetReviewsForProductSlugLazyQuery>;
 export type GetReviewsForProductSlugSuspenseQueryHookResult = ReturnType<typeof useGetReviewsForProductSlugSuspenseQuery>;
 export type GetReviewsForProductSlugQueryResult = Apollo.QueryResult<GetReviewsForProductSlugQuery, GetReviewsForProductSlugQueryVariables>;
+export const GetProductsBySlugsDocument = gql`
+    query GetProductsBySlugs($slugs: [String!]) {
+  products(where: {slug_in: $slugs}) {
+    id
+    name
+    price
+    slug
+    images {
+      url
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetProductsBySlugsQuery__
+ *
+ * To run a query within a React component, call `useGetProductsBySlugsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetProductsBySlugsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetProductsBySlugsQuery({
+ *   variables: {
+ *      slugs: // value for 'slugs'
+ *   },
+ * });
+ */
+export function useGetProductsBySlugsQuery(baseOptions?: Apollo.QueryHookOptions<GetProductsBySlugsQuery, GetProductsBySlugsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetProductsBySlugsQuery, GetProductsBySlugsQueryVariables>(GetProductsBySlugsDocument, options);
+      }
+export function useGetProductsBySlugsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetProductsBySlugsQuery, GetProductsBySlugsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetProductsBySlugsQuery, GetProductsBySlugsQueryVariables>(GetProductsBySlugsDocument, options);
+        }
+export function useGetProductsBySlugsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetProductsBySlugsQuery, GetProductsBySlugsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetProductsBySlugsQuery, GetProductsBySlugsQueryVariables>(GetProductsBySlugsDocument, options);
+        }
+export type GetProductsBySlugsQueryHookResult = ReturnType<typeof useGetProductsBySlugsQuery>;
+export type GetProductsBySlugsLazyQueryHookResult = ReturnType<typeof useGetProductsBySlugsLazyQuery>;
+export type GetProductsBySlugsSuspenseQueryHookResult = ReturnType<typeof useGetProductsBySlugsSuspenseQuery>;
+export type GetProductsBySlugsQueryResult = Apollo.QueryResult<GetProductsBySlugsQuery, GetProductsBySlugsQueryVariables>;
