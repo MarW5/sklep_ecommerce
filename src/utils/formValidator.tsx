@@ -5,14 +5,14 @@ export type CheckoutFormType = yup.InferType<typeof checkoutSchema>;
 export type RatioFormType = yup.InferType<typeof ratioFormSchema>;
 export type OrderFormType = yup.InferType<typeof orderSchema>;
 export type NewsletterSubscribeSchema = yup.InferType<typeof newsletterSubscribeSchema>;
+export type SingUpFormType = yup.InferType<typeof singUpSchema>;
 
 export const checkoutSchema = yup.object({
-    emailAddress: yup.string().email("Email format is not valid").required("Pole email jest wymagane"),
-    nameOnCard: yup.string(),
-    cardNumber: yup.number(),
-    // .max(26).required(),
+    emailAddress: yup!.string().email("Email format is not valid").required("Pole email jest wymagane"),
+    nameOnCard: yup!.string(),
+    cardNumber: yup!.number(),
     cardDate: yup.string(),
-    cvcCard: yup.string(),
+    cvcCard: yup!.string(),
     companyName: yup.string(),
     companyAddress: yup.string(),
     apartmentName: yup.string(),
@@ -48,6 +48,9 @@ setLocale({
     },
   });
 
-  checkoutSchema.validate({ name: 'jimmy', age: 11 }).catch(function (err) {
-    console.log(err)
-  });
+export const singUpSchema = yup.object({
+    emailAddress: yup!.string().email("Email format is not valid").required("Pole email jest wymagane"),
+    password: yup!.string().required("Hasło jest wymagane"),
+    confirmPassword: yup!.string().required("Wprowadź hasło").oneOf([yup.ref('password')], 'Hasła muszą być identyczne'),
+    
+}).required();

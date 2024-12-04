@@ -65,8 +65,7 @@ const CartPage = () => {
             }))
         })
         const { session } : { session: Stripe.Response<Stripe.Checkout.Session> } = await res.json();
-        
-        await stripe.redirectToCheckout({ sessionId: session.id })
+              await stripe.redirectToCheckout({ sessionId: session.id })
     }
 
     return (

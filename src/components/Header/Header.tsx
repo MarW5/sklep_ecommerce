@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import { Bars3Icon } from '@heroicons/react/24/outline'
+import { useSession, signIn, signOut } from "next-auth/react"
+
 import { useRouter } from "next/router";
 import { NavLink } from './NavLinks';
 import { Logo } from './Logo';
@@ -14,7 +16,8 @@ const navigation = [
 export const Header = ()=> {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const router = useRouter();
-    
+  const { data: session } = useSession();
+
   return (
       <header className={router.pathname == "/" ? "absolute inset-x-0 top-0 z-50" : "relative"} >
         <nav className="flex items-center justify-between p-6 lg:px-8" aria-label="Global">
@@ -35,6 +38,9 @@ export const Header = ()=> {
             {navigation.map((item, index) => (
               <NavLink key={`${item}_${index}`} href={item.href} name= {item.name} classes={'text-sm font-semibold leading-6 text-gray-900'}/>
             ))}
+          </div>
+          <div className='hidden lg:flex lg:gap-x-12'>
+            {session ? <button className='text-sm font-semibold leading-6 text-gray-900' onClick={() => signOut()}>Wyloguj się</button> : <button onClick={() => signIn()}>Zaloguj się</button>}
           </div>
           <div className="hidden lg:flex lg:flex-1 lg:justify-end">
             <Cart />

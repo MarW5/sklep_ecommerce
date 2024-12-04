@@ -1,6 +1,13 @@
-import React from "react";
+import React, { ReactNode } from "react";
 
-export const FormContent = ({ children, formVariables, handleSubmitHandle, classes="" })=> {
+type FormContentTypes = {
+    children: ReactNode,
+    formVariables: any;
+    handleSubmitHandle: any;
+    classes?: string;
+  }
+
+export const FormContent = ({ children, formVariables, handleSubmitHandle, classes="" } : FormContentTypes)=> {
     return (
         <form onSubmit={formVariables.handleSubmit(handleSubmitHandle)} className={classes}>
             {Array.isArray(children)

@@ -2,29 +2,17 @@ import { useForm } from "react-hook-form";
 import { FormInput } from "./FormInput";
 import { FormContent } from "./FormContent";
 import { CheckoutFormType } from "@/utils/formValidator";
-import { CreateProductReviewDocument, useCreateProductReviewMutation } from '@/generated/graphql';
-
 import { yupResolver } from "@hookform/resolvers/yup";
 import { checkoutSchema } from "@/utils/formValidator";
 
 export const CheckoutForm = ():CheckoutFormType => {
     const handeFormMethod = useForm<CheckoutFormType>({resolver: yupResolver(checkoutSchema)});
 
-    // const [createReview, {data, loading}] = useCreateProductReviewMutation();
-    // const handleAddReview = (reviewData) => {
-    //     createReview({
-    //         mutatation: CreateProductReviewDocument,
-    //         variables: {
-    //             review: {...reviewData}
-    //         }
-    //     })
-    // }
-
     const handleSubmitEvent = (confirmData:CheckoutFormType) =>{
         console.log(confirmData)
     }
         return (
-            <FormContent handerFormMethod ={handeFormMethod} handleSubmitEvent ={handleSubmitEvent} >
+            <FormContent formVariables ={handeFormMethod} handleSubmitEvent ={handleSubmitEvent} >
                 <FormInput label='Email address' name="emailAddress" errorData={handeFormMethod.errors?.emailAddress}/>
                 <FormInput label='Name on card' name="nameOnCard" errorData={handeFormMethod.errors?.nameOnCard}/>
                 <FormInput label='Card number' name="cardNumber" errorData={handeFormMethod.errors?.cardNumber}/>

@@ -13,7 +13,7 @@ export const ProductReviewList = ({ productSlug }: ProductReviewListProps) => {
 
     return (
     <ul className="flex flex-col">
-        {data?.product?.reviews.map(review => <ProductReviewItem key={review.id} review={review} />)}
+        {data?.product?.reviews?.map(review => <ProductReviewItem key={review.id} review={review} />)}
     </ul>
     );
 }
