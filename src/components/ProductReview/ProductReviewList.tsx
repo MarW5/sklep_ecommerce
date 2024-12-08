@@ -1,19 +1,16 @@
-import { useGetReviewsForProductSlugQuery } from "@/generated/graphql";
+import { GetReviewsForProductSlugQueryVariables, useGetReviewsForProductSlugQuery } from "@/generated/graphql";
 import { ProductReviewItem } from "./ProductReviewItem";
-interface ProductReviewListProps {
-    productSlug: string;
-}
 
-export const ProductReviewList = ({ productSlug }: ProductReviewListProps) => {
+export const ProductReviewList = ({ slug }: GetReviewsForProductSlugQueryVariables) => {
     const { data, loading, error} = useGetReviewsForProductSlugQuery({
-        variables: {
-            slug: productSlug
-        }
+        variables: {slug},
     })
+    if (loading) return <div>Loading...</div>;
+    if (error) return <div>Aktualnie nie można wyświetlić opini produktu.</div>;
 
     return (
     <ul className="flex flex-col">
-        {data?.product?.reviews?.map(review => <ProductReviewItem key={review.id} review={review} />)}
+        {data?.product?.reviews.map(review => <ProductReviewItem key={review.id} review={review} />)}
     </ul>
     );
 }

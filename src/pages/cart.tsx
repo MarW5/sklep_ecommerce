@@ -38,9 +38,9 @@ export const CartSummary = () => {
         <div className="flex flex-col w-full">
             <p className="divide-y divide-gray-200">Zamów</p>
             <div className="font-bold w-full text-lg">Suma:{sumPrices()}</div>
-            <Link href={`/order`} className="text-white text-sm bg-slate-800 rounded-md p-2 mt-1 max-w-fit">
+            {/* <Link href={`/order`} className="text-white text-sm bg-slate-800 rounded-md p-2 mt-1 max-w-fit">
                 Przejdź do koszyka
-            </Link>
+            </Link> */}
         </div>
     )
 }
@@ -65,6 +65,7 @@ const CartPage = () => {
             }))
         })
         const { session } : { session: Stripe.Response<Stripe.Checkout.Session> } = await res.json();
+        console.log('SESSION', session)
               await stripe.redirectToCheckout({ sessionId: session.id })
     }
 

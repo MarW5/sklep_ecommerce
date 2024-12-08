@@ -11474,6 +11474,7 @@ export type CreateProductReviewMutation = { __typename?: 'Mutation', review?: { 
 
 export type CreateOrderMutationVariables = Exact<{
   order: OrderCreateInput;
+  userId: Scalars['ID'];
 }>;
 
 
@@ -11570,7 +11571,7 @@ export type CreateProductReviewMutationHookResult = ReturnType<typeof useCreateP
 export type CreateProductReviewMutationResult = Apollo.MutationResult<CreateProductReviewMutation>;
 export type CreateProductReviewMutationOptions = Apollo.BaseMutationOptions<CreateProductReviewMutation, CreateProductReviewMutationVariables>;
 export const CreateOrderDocument = gql`
-    mutation CreateOrder($order: OrderCreateInput!) {
+    mutation CreateOrder($order: OrderCreateInput!, $userId: ID!) {
   createOrder(data: $order) {
     id
   }
@@ -11592,6 +11593,7 @@ export type CreateOrderMutationFn = Apollo.MutationFunction<CreateOrderMutation,
  * const [createOrderMutation, { data, loading, error }] = useCreateOrderMutation({
  *   variables: {
  *      order: // value for 'order'
+ *      userId: // value for 'userId'
  *   },
  * });
  */

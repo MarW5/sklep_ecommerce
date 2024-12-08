@@ -7,10 +7,6 @@ mutation CreateProductReview($review: ReviewCreateInput!) {
 mutation CreateOrder($order: OrderCreateInput!, $userId: ID!) {
   createOrder(data: $order) {
     id
-    user {
-      id
-      name
-    }
   }
 }
 
