@@ -3,8 +3,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { GetReviewsForProductSlugDocument, GetReviewsForProductSlugQuery, ReviewCreateInput, useCreateProductReviewMutation } from "@/generated/graphql";
 
 import { Main } from "@/components/Main";
-import { FormContent } from "@/components/FormContent";
-import { FormInput } from "@/components/FormInput";
+import { FormContent } from "@/components/FormComponents/FormContent";
+import { FormInput } from "@/components/FormComponents/FormInput";
 import { RatioFormType, ratioFormSchema } from "@/utils/formValidator";
 import { useSession } from "next-auth/react"
 

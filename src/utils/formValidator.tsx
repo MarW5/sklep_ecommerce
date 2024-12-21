@@ -7,20 +7,30 @@ export type OrderFormType = yup.InferType<typeof orderSchema>;
 export type NewsletterSubscribeSchema = yup.InferType<typeof newsletterSubscribeSchema>;
 export type SingUpFormType = yup.InferType<typeof singUpSchema>;
 
-export const checkoutSchema = yup.object({
-    emailAddress: yup!.string().email("Email format is not valid").required("Pole email jest wymagane"),
-    nameOnCard: yup!.string(),
-    cardNumber: yup!.number(),
-    cardDate: yup.string(),
-    cvcCard: yup!.string(),
-    companyName: yup.string(),
-    companyAddress: yup.string(),
-    apartmentName: yup.string(),
-    cityName: yup.string(),
-    stateName: yup.string(),
-    postalCode: yup.string(),
-}).required();
+export let checkoutSchema = yup.object({
+    name: yup!.string().required("Imię jest wymagane"),
+    surname: yup!.string().required("Nazwisko jest wymagane"),
+    emailAddress: yup!.string().email("Email zawiera błędy").required("Pole email jest wymagane"),
+    isCompanyBuy: yup.boolean().default(false),
+    companyName: yup.string().default(''),
+    taxId: yup.string().max(10).default(''),
+    streetName: yup.string().required("Pole jest wymagane"),
+    cityName: yup.string().required("Pole jest wymagane"),
+    postalCode: yup.string().required("Pole jest wymagane"),
+});
 
+checkoutSchema = checkoutSchema.test(
+'isCompanyBuy', null, (obj) => {
+    if ( !obj.isCompanyBuy ) {
+      return true;
+    }
+    return new yup.ValidationError(
+      'Uzupełnij dane firmy',
+        null,
+        'taxId'
+      );
+    }
+)
 
 export const ratioFormSchema = yup.object({
     headline: yup.string().required(),

@@ -1,4 +1,4 @@
-import { UseFormReturn } from "react-hook-form";
+import { FieldError, UseFormReturn } from "react-hook-form";
 
 interface FormInputType {
     label: string
@@ -9,7 +9,8 @@ interface FormInputType {
 }
 
 export const FormInput = ({ label, name, formVariables, typeInput='', classes='' }: FormInputType)=> {
-    const {register, formState: { errors }} = formVariables;
+    const {register, formState} = formVariables;
+    const { errors }:  FieldError= formState;
     return (
         <div className={`md:flex md:items-center mb-6 ${classes}`}>
             <div className="md:w-1/3">

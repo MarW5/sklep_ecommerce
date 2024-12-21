@@ -1,8 +1,8 @@
 import { Main } from "@/components/Main";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { NewsletterSubscribeSchema, newsletterSubscribeSchema } from "@/utils/formValidator";
-import { FormContent } from "@/components/FormContent";
-import { FormInput } from "@/components/FormInput";
+import { FormContent } from "@/components/FormComponents/FormContent";
+import { FormInput } from "@/components/FormComponents/FormInput";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { subscribeUserToNewsletter } from '../hooksApiCall/subscribeNewsletter';
 const ConfirmPage = () => {

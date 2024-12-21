@@ -10,6 +10,12 @@ mutation CreateOrder($order: OrderCreateInput!, $userId: ID!) {
   }
 }
 
+mutation ConnectNewOrderToAccount($where: OrderWhereUniqueInput!, $email: String!) {
+  updateAccount(data: {order: {connect: {where: $where}}}, where: {email: $email}) {
+    id
+  }
+}
+
 mutation CreateAccount($email:String!, $password:String!) {
   createAccount(data: {email: $email, password:$password}){
   id  

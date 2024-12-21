@@ -36,6 +36,7 @@ export type Account = Entity & Node & {
   history: Array<Version>;
   /** The unique identifier */
   id: Scalars['ID'];
+  order: Array<Order>;
   password: Scalars['String'];
   /** The time the document was published. Null on documents in draft stage. */
   publishedAt?: Maybe<Scalars['DateTime']>;
@@ -68,6 +69,19 @@ export type AccountHistoryArgs = {
   limit?: Scalars['Int'];
   skip?: Scalars['Int'];
   stageOverride?: InputMaybe<Stage>;
+};
+
+
+export type AccountOrderArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  forceParentLocale?: InputMaybe<Scalars['Boolean']>;
+  last?: InputMaybe<Scalars['Int']>;
+  locales?: InputMaybe<Array<Locale>>;
+  orderBy?: InputMaybe<OrderOrderByInput>;
+  skip?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<OrderWhereInput>;
 };
 
 
@@ -114,6 +128,7 @@ export type AccountConnection = {
 export type AccountCreateInput = {
   createdAt?: InputMaybe<Scalars['DateTime']>;
   email: Scalars['String'];
+  order?: InputMaybe<OrderCreateManyInlineInput>;
   password: Scalars['String'];
   updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
@@ -208,6 +223,9 @@ export type AccountManyWhereInput = {
   id_not_starts_with?: InputMaybe<Scalars['ID']>;
   /** All values starting with the given string. */
   id_starts_with?: InputMaybe<Scalars['ID']>;
+  order_every?: InputMaybe<OrderWhereInput>;
+  order_none?: InputMaybe<OrderWhereInput>;
+  order_some?: InputMaybe<OrderWhereInput>;
   password?: InputMaybe<Scalars['String']>;
   /** All values containing the given string. */
   password_contains?: InputMaybe<Scalars['String']>;
@@ -281,6 +299,7 @@ export enum AccountOrderByInput {
 
 export type AccountUpdateInput = {
   email?: InputMaybe<Scalars['String']>;
+  order?: InputMaybe<OrderUpdateManyInlineInput>;
   password?: InputMaybe<Scalars['String']>;
 };
 
@@ -421,6 +440,9 @@ export type AccountWhereInput = {
   id_not_starts_with?: InputMaybe<Scalars['ID']>;
   /** All values starting with the given string. */
   id_starts_with?: InputMaybe<Scalars['ID']>;
+  order_every?: InputMaybe<OrderWhereInput>;
+  order_none?: InputMaybe<OrderWhereInput>;
+  order_some?: InputMaybe<OrderWhereInput>;
   password?: InputMaybe<Scalars['String']>;
   /** All values containing the given string. */
   password_contains?: InputMaybe<Scalars['String']>;
@@ -5163,6 +5185,7 @@ export type Node = {
 
 export type Order = Entity & Node & {
   __typename?: 'Order';
+  account?: Maybe<Account>;
   /** The time the document was created */
   createdAt: Scalars['DateTime'];
   /** User that created this document */
@@ -5187,6 +5210,12 @@ export type Order = Entity & Node & {
   updatedAt: Scalars['DateTime'];
   /** User that last updated this document */
   updatedBy?: Maybe<User>;
+};
+
+
+export type OrderAccountArgs = {
+  forceParentLocale?: InputMaybe<Scalars['Boolean']>;
+  locales?: InputMaybe<Array<Locale>>;
 };
 
 
@@ -5264,6 +5293,7 @@ export type OrderConnection = {
 };
 
 export type OrderCreateInput = {
+  account?: InputMaybe<AccountCreateOneInlineInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
   email: Scalars['String'];
   orderItems?: InputMaybe<OrderItemCreateManyInlineInput>;
@@ -5784,6 +5814,7 @@ export type OrderManyWhereInput = {
   OR?: InputMaybe<Array<OrderWhereInput>>;
   /** Contains search across all appropriate fields. */
   _search?: InputMaybe<Scalars['String']>;
+  account?: InputMaybe<AccountWhereInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
   /** All values greater than the given value. */
   createdAt_gt?: InputMaybe<Scalars['DateTime']>;
@@ -5912,6 +5943,7 @@ export enum OrderOrderByInput {
 }
 
 export type OrderUpdateInput = {
+  account?: InputMaybe<AccountUpdateOneInlineInput>;
   email?: InputMaybe<Scalars['String']>;
   orderItems?: InputMaybe<OrderItemUpdateManyInlineInput>;
   total?: InputMaybe<Scalars['Int']>;
@@ -5998,6 +6030,7 @@ export type OrderWhereInput = {
   OR?: InputMaybe<Array<OrderWhereInput>>;
   /** Contains search across all appropriate fields. */
   _search?: InputMaybe<Scalars['String']>;
+  account?: InputMaybe<AccountWhereInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
   /** All values greater than the given value. */
   createdAt_gt?: InputMaybe<Scalars['DateTime']>;
@@ -11480,6 +11513,14 @@ export type CreateOrderMutationVariables = Exact<{
 
 export type CreateOrderMutation = { __typename?: 'Mutation', createOrder?: { __typename?: 'Order', id: string } | null };
 
+export type ConnectNewOrderToAccountMutationVariables = Exact<{
+  where: OrderWhereUniqueInput;
+  email: Scalars['String'];
+}>;
+
+
+export type ConnectNewOrderToAccountMutation = { __typename?: 'Mutation', updateAccount?: { __typename?: 'Account', id: string } | null };
+
 export type CreateAccountMutationVariables = Exact<{
   email: Scalars['String'];
   password: Scalars['String'];
@@ -11604,6 +11645,40 @@ export function useCreateOrderMutation(baseOptions?: Apollo.MutationHookOptions<
 export type CreateOrderMutationHookResult = ReturnType<typeof useCreateOrderMutation>;
 export type CreateOrderMutationResult = Apollo.MutationResult<CreateOrderMutation>;
 export type CreateOrderMutationOptions = Apollo.BaseMutationOptions<CreateOrderMutation, CreateOrderMutationVariables>;
+export const ConnectNewOrderToAccountDocument = gql`
+    mutation ConnectNewOrderToAccount($where: OrderWhereUniqueInput!, $email: String!) {
+  updateAccount(data: {order: {connect: {where: $where}}}, where: {email: $email}) {
+    id
+  }
+}
+    `;
+export type ConnectNewOrderToAccountMutationFn = Apollo.MutationFunction<ConnectNewOrderToAccountMutation, ConnectNewOrderToAccountMutationVariables>;
+
+/**
+ * __useConnectNewOrderToAccountMutation__
+ *
+ * To run a mutation, you first call `useConnectNewOrderToAccountMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useConnectNewOrderToAccountMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [connectNewOrderToAccountMutation, { data, loading, error }] = useConnectNewOrderToAccountMutation({
+ *   variables: {
+ *      where: // value for 'where'
+ *      email: // value for 'email'
+ *   },
+ * });
+ */
+export function useConnectNewOrderToAccountMutation(baseOptions?: Apollo.MutationHookOptions<ConnectNewOrderToAccountMutation, ConnectNewOrderToAccountMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<ConnectNewOrderToAccountMutation, ConnectNewOrderToAccountMutationVariables>(ConnectNewOrderToAccountDocument, options);
+      }
+export type ConnectNewOrderToAccountMutationHookResult = ReturnType<typeof useConnectNewOrderToAccountMutation>;
+export type ConnectNewOrderToAccountMutationResult = Apollo.MutationResult<ConnectNewOrderToAccountMutation>;
+export type ConnectNewOrderToAccountMutationOptions = Apollo.BaseMutationOptions<ConnectNewOrderToAccountMutation, ConnectNewOrderToAccountMutationVariables>;
 export const CreateAccountDocument = gql`
     mutation CreateAccount($email: String!, $password: String!) {
   createAccount(data: {email: $email, password: $password}) {
@@ -11675,8 +11750,8 @@ export function useGetProductListLazyQuery(baseOptions?: Apollo.LazyQueryHookOpt
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetProductListQuery, GetProductListQueryVariables>(GetProductListDocument, options);
         }
-export function useGetProductListSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetProductListQuery, GetProductListQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useGetProductListSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetProductListQuery, GetProductListQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<GetProductListQuery, GetProductListQueryVariables>(GetProductListDocument, options);
         }
 export type GetProductListQueryHookResult = ReturnType<typeof useGetProductListQuery>;
@@ -11722,8 +11797,8 @@ export function useGetProductDetailsBySlugLazyQuery(baseOptions?: Apollo.LazyQue
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetProductDetailsBySlugQuery, GetProductDetailsBySlugQueryVariables>(GetProductDetailsBySlugDocument, options);
         }
-export function useGetProductDetailsBySlugSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetProductDetailsBySlugQuery, GetProductDetailsBySlugQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useGetProductDetailsBySlugSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetProductDetailsBySlugQuery, GetProductDetailsBySlugQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<GetProductDetailsBySlugQuery, GetProductDetailsBySlugQueryVariables>(GetProductDetailsBySlugDocument, options);
         }
 export type GetProductDetailsBySlugQueryHookResult = ReturnType<typeof useGetProductDetailsBySlugQuery>;
@@ -11761,8 +11836,8 @@ export function useGetProductsSlugsLazyQuery(baseOptions?: Apollo.LazyQueryHookO
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetProductsSlugsQuery, GetProductsSlugsQueryVariables>(GetProductsSlugsDocument, options);
         }
-export function useGetProductsSlugsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetProductsSlugsQuery, GetProductsSlugsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useGetProductsSlugsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetProductsSlugsQuery, GetProductsSlugsQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<GetProductsSlugsQuery, GetProductsSlugsQueryVariables>(GetProductsSlugsDocument, options);
         }
 export type GetProductsSlugsQueryHookResult = ReturnType<typeof useGetProductsSlugsQuery>;
@@ -11803,8 +11878,8 @@ export function useGetReviewsForProductSlugLazyQuery(baseOptions?: Apollo.LazyQu
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetReviewsForProductSlugQuery, GetReviewsForProductSlugQueryVariables>(GetReviewsForProductSlugDocument, options);
         }
-export function useGetReviewsForProductSlugSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetReviewsForProductSlugQuery, GetReviewsForProductSlugQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useGetReviewsForProductSlugSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetReviewsForProductSlugQuery, GetReviewsForProductSlugQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<GetReviewsForProductSlugQuery, GetReviewsForProductSlugQueryVariables>(GetReviewsForProductSlugDocument, options);
         }
 export type GetReviewsForProductSlugQueryHookResult = ReturnType<typeof useGetReviewsForProductSlugQuery>;
@@ -11849,8 +11924,8 @@ export function useGetProductsBySlugsLazyQuery(baseOptions?: Apollo.LazyQueryHoo
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetProductsBySlugsQuery, GetProductsBySlugsQueryVariables>(GetProductsBySlugsDocument, options);
         }
-export function useGetProductsBySlugsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetProductsBySlugsQuery, GetProductsBySlugsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useGetProductsBySlugsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetProductsBySlugsQuery, GetProductsBySlugsQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<GetProductsBySlugsQuery, GetProductsBySlugsQueryVariables>(GetProductsBySlugsDocument, options);
         }
 export type GetProductsBySlugsQueryHookResult = ReturnType<typeof useGetProductsBySlugsQuery>;
@@ -11891,8 +11966,8 @@ export function useGetAccountByEmailLazyQuery(baseOptions?: Apollo.LazyQueryHook
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetAccountByEmailQuery, GetAccountByEmailQueryVariables>(GetAccountByEmailDocument, options);
         }
-export function useGetAccountByEmailSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetAccountByEmailQuery, GetAccountByEmailQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useGetAccountByEmailSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetAccountByEmailQuery, GetAccountByEmailQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<GetAccountByEmailQuery, GetAccountByEmailQueryVariables>(GetAccountByEmailDocument, options);
         }
 export type GetAccountByEmailQueryHookResult = ReturnType<typeof useGetAccountByEmailQuery>;

@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { FormContent } from "@/components/FormContent";
-import { FormInput } from "@/components/FormInput";
+import { FormContent } from "@/components/FormComponents/FormContent";
+import { FormInput } from "@/components/FormComponents/FormInput";
 import { SingUpFormType, singUpSchema } from "@/utils/formValidator";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";

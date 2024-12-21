@@ -24,8 +24,9 @@ export const CartContent = () => {
     )
 }
 
-export const CartSummary = () => {
+const CartPage = () => {
     const cartState = useCartState();
+
     const sumPrices =()=>{
         let sumFinal = 0
         cartState.items.forEach((el)=>{
@@ -33,20 +34,7 @@ export const CartSummary = () => {
         })
         return sumFinal
     }
-    
-    return (
-        <div className="flex flex-col w-full">
-            <p className="divide-y divide-gray-200">Zamów</p>
-            <div className="font-bold w-full text-lg">Suma:{sumPrices()}</div>
-            {/* <Link href={`/order`} className="text-white text-sm bg-slate-800 rounded-md p-2 mt-1 max-w-fit">
-                Przejdź do koszyka
-            </Link> */}
-        </div>
-    )
-}
 
-const CartPage = () => {
-    const cartState = useCartState();
     const pay = async () =>{
         const stripe = await stripePromise;
 
@@ -74,11 +62,15 @@ const CartPage = () => {
             <p>Koszyk</p>
             <div className="grid grid-cols-3 gap-8">
                 <CartContent />
-                <CartSummary />
+                <div className="flex flex-col w-full">
+            <p className="divide-y divide-gray-200">Zamów</p>
+            <div className="font-bold w-full text-lg">Suma:{sumPrices()}</div>
+            <Link href={`/checkout`} className="text-white text-sm bg-slate-800 rounded-md p-2 mt-1 max-w-fit">Złóż zamówienie</Link>
             </div>
-            <button onClick={()=> pay()} type='button' className="text-white text-sm bg-slate-800 rounded-md p-2 mt-1 max-w-fit w-full">
+            </div>
+            {/* <button onClick={()=> pay()} type='button' className="text-white text-sm bg-slate-800 rounded-md p-2 mt-1 max-w-fit w-full">
                 Złóż zamówienie
-            </button>
+            </button> */}
         </div>
     )
 }
