@@ -5,16 +5,6 @@ import type { NextAuthOptions } from "next-auth"
 import { authorizeApolloClient } from "@/graphql/appolloClient";
 import { GetAccountByEmailDocument, GetAccountByEmailQuery, GetAccountByEmailQueryVariables, useGetAccountByEmailQuery } from "@/generated/graphql";
 
-// declare module 'next-auth' {
-//     interface User {
-//         id: string;
-//         email: string
-//     }
-//     interface Session {
-//         user: User;
-//     }
-// }
-
 export const authOptions: NextAuthOptions = {
     secret: process.env.NEXT_AUTH_SECRET,
     providers: [
@@ -50,18 +40,15 @@ export const authOptions: NextAuthOptions = {
         }
     })
     ],
-    // callbacks: {
-    //     async session({ session, token, user }) {
-    //         // Send properties to the client, like an access_token and user id from a provider.
-    //         session.accessToken = token.accessToken
-    //         session.user.id = token.id
-                
-    //         return session
-    //     },
-    //   async redirect({ url, baseUrl }) {
-    //     return `${process.env.BASE_URL}/products`
-    //   },
-    // }
+    callbacks: {
+        session({ session, token }) {
+            session.user = token;
+            return session
+        },
+      async redirect({ url, baseUrl }) {
+        return `${process.env.BASE_URL}/products`
+      },
+    }
 }
 
 export default NextAuth(authOptions)

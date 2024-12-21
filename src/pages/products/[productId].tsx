@@ -10,6 +10,7 @@ const ProductIdPage = ({ data, }: InferGetStaticPropsType<typeof getStaticProps>
     if (!data) {
         return <div>Some error here</div>
     }
+    
     return (
             <Main>
                 <ProductDetails
@@ -24,7 +25,7 @@ const ProductIdPage = ({ data, }: InferGetStaticPropsType<typeof getStaticProps>
                         rating: 5
                     }} />
                     <ProductReviewForm productId={data.slug} />
-                    <ProductReviewList productSlug ={data.slug}/>
+                    <ProductReviewList slug ={data.slug}/>
             </Main>
     )
 }
@@ -34,7 +35,6 @@ export const getStaticPaths = async () => {
     const { data } = await apolloClient.query<GetProductsSlugsQuery>({
         query: GetProductsSlugsDocument,
     })
-
     return {
         paths: data.products.map((product) => {
             return {
@@ -45,7 +45,6 @@ export const getStaticPaths = async () => {
         }),
         fallback: false,
     }
-
 }
 
 export const getStaticProps = async ({ params, }: GetStaticPropsContext<{ productId: string }>) => {

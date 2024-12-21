@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { FormInput } from "./FormInput";
-import { FormContent } from "./FormContent";
+import { FormInput } from "./FormComponents/FormInput";
+import { FormContent } from "./FormComponents/FormContent";
 import { OrderFormType, orderSchema } from "@/utils/formValidator";
 import { useCreateOrderMutation } from "@/generated/graphql";
 import { useCartState } from "./Cart/CartContext";

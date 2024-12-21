@@ -1,7 +1,7 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Look my demo app on vercel
-https://vercel.com/marw5s-projects/sklep-zaiste-wnaw/3Y7DxbxBo7MjYG6oJM8sytqQx32y
+https://sklep-ecommerce.vercel.app
 
 ## Getting Started
 
